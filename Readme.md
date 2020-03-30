@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
-* Студент: [Aleks Balev](https://up.htmlacademy.ru/ecmascript/11/user/605603).
-* Наставник: `Неизвестно`.
+- Студент: [Aleks Balev](https://up.htmlacademy.ru/ecmascript/11/user/605603).
+- Наставник: [Ruslan Malogulko](https://htmlacademy.ru/profile/id9728).
 
 ---
 
