@@ -272,7 +272,7 @@ render(siteMainElem, createMainNavTemplate(), `afterbegin`);
 render(siteMainElem, createSortTemplate(), `beforeend`);
 render(siteMainElem, createMainFilmTemplate(), `beforeend`);
 
-const filmsElem = siteMainElem.querySelector(`.films`)
+const filmsElem = siteMainElem.querySelector(`.films`);
 const filmsListElem = filmsElem.querySelector(`.films-list`);
 const filmsMainContainerElem = filmsListElem.querySelector(`.films-list__container`);
 const filmsExtraContainersElem = filmsElem.querySelectorAll(`.films-list--extra`);
@@ -310,7 +310,7 @@ cardsElements.forEach((elem) => {
       filmsDetailsElem.style.display = ``;
     });
   });
-})
+});
 
 const closeCardDetailBtn = document.querySelector(`.film-details__close-btn`);
 
