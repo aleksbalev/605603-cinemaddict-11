@@ -19,6 +19,9 @@ import {
 import {
   createFilmsDetailTemplate
 } from './components/films-detail';
+import {
+  generateFilters
+} from './mock/main-navigation';
 
 const MAIN_FILMS_COUNT = 5;
 const EXTRA_FILMS_COUNT = 2;
@@ -31,15 +34,36 @@ const siteHeaderElem = document.querySelector(`header`);
 const siteMainElem = document.querySelector(`main`);
 const siteBodyElem = document.querySelector(`body`);
 
+const filters = generateFilters();
+
 render(siteHeaderElem, createProfileTemplate(), `beforeend`);
-render(siteMainElem, createMainNavTemplate(), `afterbegin`);
+render(siteMainElem, createMainNavTemplate(filters), `afterbegin`);
+
+const filterElements = [].slice.call(siteMainElem.querySelectorAll(`.main-navigation__item`));
+
+filterElements.forEach((elem) => {
+  elem.addEventListener(`click`, () => {
+    let el = filterElements[0];
+    while (el) {
+      if (el.tagName === `a`) {
+        el.classList.remove(`.main-navigation__item`);
+      }
+      el = el.nextSibling();
+    }
+
+    elem.classList.add(`.main-navigation__item`);
+  });
+});
+
 render(siteMainElem, createSortTemplate(), `beforeend`);
 render(siteMainElem, createMainFilmTemplate(), `beforeend`);
 
 const filmsElem = siteMainElem.querySelector(`.films`);
 const filmsListElem = filmsElem.querySelector(`.films-list`);
+
 const filmsMainContainerElem = filmsListElem.querySelector(`.films-list__container`);
 const filmsExtraContainersElem = filmsElem.querySelectorAll(`.films-list--extra`);
+
 const [topRated, mostCommented] = filmsExtraContainersElem;
 const topRatedContainer = topRated.querySelector(`.films-list__container`);
 const mostCommentedContainer = mostCommented.querySelector(`.films-list__container`);
