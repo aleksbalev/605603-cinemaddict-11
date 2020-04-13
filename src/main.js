@@ -22,6 +22,12 @@ import {
 import {
   generateFilters
 } from './mock/main-navigation';
+import {
+  switchElem
+} from './components/switch';
+import {
+  generateSorting
+} from './mock/sorting';
 
 const MAIN_FILMS_COUNT = 5;
 const EXTRA_FILMS_COUNT = 2;
@@ -40,22 +46,15 @@ render(siteHeaderElem, createProfileTemplate(), `beforeend`);
 render(siteMainElem, createMainNavTemplate(filters), `afterbegin`);
 
 const filterElements = [].slice.call(siteMainElem.querySelectorAll(`.main-navigation__item`));
+switchElem(filterElements, `main-navigation__item`);
 
-filterElements.forEach((elem) => {
-  elem.addEventListener(`click`, () => {
-    let el = filterElements[0];
-    while (el) {
-      if (el.tagName === `a`) {
-        el.classList.remove(`.main-navigation__item`);
-      }
-      el = el.nextSibling();
-    }
+const sortings = generateSorting();
 
-    elem.classList.add(`.main-navigation__item`);
-  });
-});
+render(siteMainElem, createSortTemplate(sortings), `beforeend`);
 
-render(siteMainElem, createSortTemplate(), `beforeend`);
+const sortElements = [].slice.call(siteMainElem.querySelectorAll(`.sort__button`));
+switchElem(sortElements, `sort__button`);
+
 render(siteMainElem, createMainFilmTemplate(), `beforeend`);
 
 const filmsElem = siteMainElem.querySelector(`.films`);

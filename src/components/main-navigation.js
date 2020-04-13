@@ -4,13 +4,17 @@ const createFilterMarkup = (filter) => {
     count
   } = filter;
 
-  return `<a href="#${
-    name === `All movies` ? `all` : name.toLowerCase()
-  }" class="main-navigation__item ${
-    name === `All movies` ? `main-navigation__item--active` : ``
-  }">${name} <span class="${
-    count && name !== `All movies` ? `main-navigation__item-count` : ``
-  }">${count === 0 || name === `All movies` ? `` : count}</span></a>`;
+  const hrefLink = `#${name === `All movies` ? `all` : name.toLowerCase()}`;
+  const classList = `main-navigation__item ${name === `All movies` ? `main-navigation__item--active` : ``}`;
+  const spanClassList = `${count && name !== `All movies` ? `main-navigation__item-count` : ``}`;
+
+  return `
+  <a href="${hrefLink}" class="${classList}">
+    ${name} 
+    <span class="${spanClassList}">
+      ${count === 0 || name === `All movies` ? `` : count}
+    </span>
+  </a>`;
 };
 
 export const createMainNavTemplate = (filters) => {
