@@ -32,13 +32,11 @@ export const createFilmsDetailTemplate = (card) => {
     cardRating,
     cardDate,
     cardDuration,
-    cardGenre,
     cardPoster,
     cardDescription,
     cardComments,
   } = card;
 
-  console.log(createCommentsMarkup(cardComments[1]));
   const formatDate = `${cardDate[2]} ${cardDate[1]} ${cardDate[0]}`;
 
   return `<section class="film-details">

@@ -132,7 +132,6 @@ const generateComments = (count) => {
   return arr;
 };
 
-console.log(generateComments(Math.floor(Math.random() * 5)));
 
 const generateTask = () => {
   const randomCommentsCount = Math.floor(Math.random() * 5);
@@ -154,8 +153,6 @@ const generateTask = () => {
     ],
   };
 };
-
-console.log(generateTask())
 
 const generateTasks = (count) => {
   return new Array(count).fill(``)
