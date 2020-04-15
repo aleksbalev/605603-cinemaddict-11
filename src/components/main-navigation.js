@@ -1,11 +1,31 @@
-export const createMainNavTemplate = () => {
+const createFilterMarkup = (filter) => {
+  const {
+    name,
+    count
+  } = filter;
+
+  const hrefLink = `#${name === `All movies` ? `all` : name.toLowerCase()}`;
+  const classList = `main-navigation__item ${name === `All movies` ? `main-navigation__item--active` : ``}`;
+  const spanClassList = `${count && name !== `All movies` ? `main-navigation__item-count` : ``}`;
+
+  return `
+  <a href="${hrefLink}" class="${classList}">
+    ${name} 
+    <span class="${spanClassList}">
+      ${count === 0 || name === `All movies` ? `` : count}
+    </span>
+  </a>`;
+};
+
+export const createMainNavTemplate = (filters) => {
+  const filterMarkup = filters
+    .map((item) => createFilterMarkup(item))
+    .join(`\n`);
+
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-        <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-        <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-        <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+        ${filterMarkup}
       </div>
       <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`
