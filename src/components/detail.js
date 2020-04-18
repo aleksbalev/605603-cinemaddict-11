@@ -1,3 +1,7 @@
+import {
+  createElement
+} from '../utils';
+
 const createCommentsMarkup = (comments) => {
   const commentsArr = [];
 
@@ -26,7 +30,7 @@ const createCommentsMarkup = (comments) => {
   return commentsArr.join(`\n`);
 };
 
-export const createFilmsDetailTemplate = (card) => {
+const createFilmsDetailTemplate = (card) => {
   const {
     cardTitle,
     cardRating,
@@ -158,3 +162,28 @@ export const createFilmsDetailTemplate = (card) => {
       </form>
     </section>`;
 };
+
+class Detail {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmsDetailTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default Detail;

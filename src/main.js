@@ -1,43 +1,42 @@
-import {
-  createProfileTemplate
-} from './components/profile';
-import {
-  createMainNavTemplate
-} from './components/main-navigation';
-import {
-  createSortTemplate
-} from './components/sorting';
-import {
-  createMainFilmTemplate
-} from './components/main-film';
-import {
-  createFilmCardTemplate
-} from './components/film-card';
-import {
-  createShowMoreButtonTemplate
-} from './components/show-more-button';
-import {
-  createFilmsDetailTemplate
-} from './components/films-detail';
+import BoardComponent from './components/board';
+import CardComponent from './components/card';
+import DetailComponent from './components/detail';
+import NavigationComponent from './components/navigation';
+import ProfileComponent from './components/profile';
+import ShowMoreButtonComponent from './components/show-more-button';
+import SortComponent from './components/sort';
 import {
   generateFilters
-} from './mock/main-navigation';
-import {
-  switchElem
-} from './components/switch';
+} from './mock/navigation';
 import {
   generateSorting
-} from './mock/sorting';
+} from './mock/sort';
 import {
-  generateTasks
-} from './mock/film-card';
+  generateCards
+} from './mock/card';
+import {
+  switchElem,
+  render
+} from './utils';
 
 const FILMS_CARDS_COUNT = 15;
 const EXTRA_FILMS_COUNT = 2;
 const SHOWING_FILMS_CARDS_COUNT = 5;
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+const renderCard = (cardPlace, card) => {
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const cardComponent = new CardComponent(card);
+
+  const filmCardPoster = cardComponent.getElement().querySelector(`.film-card__poster`);
+  const filmCardComment = cardComponent.getElement().querySelector(`.film-card__comments`);
+  const filmCardTitle = cardComponent.getElement().querySelector(`.film-card__title`);
 };
 
 const siteHeaderElem = document.querySelector(`header`);
@@ -71,7 +70,7 @@ const [topRated, mostCommented] = filmsExtraContainersElem;
 const topRatedContainer = topRated.querySelector(`.films-list__container`);
 const mostCommentedContainer = mostCommented.querySelector(`.films-list__container`);
 
-const cards = generateTasks(FILMS_CARDS_COUNT);
+const cards = generateCards(FILMS_CARDS_COUNT);
 
 let showingCardsCount = SHOWING_FILMS_CARDS_COUNT;
 let showingExtraCardsCount = EXTRA_FILMS_COUNT;
@@ -92,10 +91,6 @@ render(siteBodyElem, createFilmsDetailTemplate(cards[0]), `beforeend`);
 const filmsDetailsElem = document.querySelector(`.film-details`);
 filmsDetailsElem.style.display = `none`;
 
-/* Тут я начинаю валять дурака */
-const filmCardPosters = filmsElem.querySelectorAll(`.film-card__poster`);
-const filmCardComments = filmsElem.querySelectorAll(`.film-card__comments`);
-const filmCardTitles = filmsElem.querySelectorAll(`.film-card__title`);
 
 const cardsElements = [filmCardPosters, filmCardComments, filmCardTitles];
 
@@ -112,4 +107,3 @@ const closeCardDetailBtn = document.querySelector(`.film-details__close-btn`);
 closeCardDetailBtn.addEventListener(`click`, () => {
   filmsDetailsElem.style.display = `none`;
 });
-/* Закончил валять дурака */

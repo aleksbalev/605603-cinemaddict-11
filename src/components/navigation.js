@@ -1,3 +1,7 @@
+import {
+  createElement
+} from '../utils';
+
 const createFilterMarkup = (filter) => {
   const {
     name,
@@ -17,7 +21,7 @@ const createFilterMarkup = (filter) => {
   </a>`;
 };
 
-export const createMainNavTemplate = (filters) => {
+const createMainNavTemplate = (filters) => {
   const filterMarkup = filters
     .map((item) => createFilterMarkup(item))
     .join(`\n`);
@@ -31,3 +35,28 @@ export const createMainNavTemplate = (filters) => {
     </nav>`
   );
 };
+
+class Navigation {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMainNavTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default Navigation;
