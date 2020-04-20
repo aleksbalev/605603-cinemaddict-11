@@ -1,7 +1,6 @@
-const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
+import {
+  renderPosition
+} from './const';
 
 const createElement = (template) => {
   const newElement = document.createElement(`div`);
@@ -12,10 +11,10 @@ const createElement = (template) => {
 
 const render = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case renderPosition.AFTERBEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case renderPosition.BEFOREEND:
       container.append(element);
       break;
   }
