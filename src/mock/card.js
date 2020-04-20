@@ -133,7 +133,7 @@ const generateComments = (count) => {
 };
 
 
-const generateTask = () => {
+const generateCard = () => {
   const randomCommentsCount = Math.floor(Math.random() * 5);
   return {
     cardTitle: titles[getRandomIndex(titles)],
@@ -154,13 +154,13 @@ const generateTask = () => {
   };
 };
 
-const generateTasks = (count) => {
+const generateCards = (count) => {
   return new Array(count).fill(``)
-    .map(generateTask);
+    .map(generateCard);
 };
 
 export {
-  generateTask,
-  generateTasks,
+  generateCard,
+  generateCards,
   getRandomIntegerItem,
 };

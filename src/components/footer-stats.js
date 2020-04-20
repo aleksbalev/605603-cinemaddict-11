@@ -1,20 +1,21 @@
 import {
+  cardCount
+} from '../const';
+import {
   createElement
 } from '../utils';
 
-const createShowMoreButtonTemplate = () => {
-  return (
-    `<button class="films-list__show-more">Show more</button>`
-  );
+const createFilmsCountTemplate = () => {
+  return `<p>${cardCount.FILMS_CARDS_COUNT} movies inside</p>`;
 };
 
-class ShowMoreButton {
+class FilmsCount {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createShowMoreButtonTemplate();
+    return createFilmsCountTemplate();
   }
 
   getElement() {
@@ -30,4 +31,4 @@ class ShowMoreButton {
   }
 }
 
-export default ShowMoreButton;
+export default FilmsCount;
