@@ -6,6 +6,7 @@ import ProfileComponent from './components/profile';
 import ShowMoreButtonComponent from './components/show-more-button';
 import SortComponent from './components/sort';
 import FilmsCountComponent from './components/footer-stats';
+import NoFilmsComponent from './components/no-films';
 import {
   generateFilters
 } from './mock/navigation';
@@ -61,6 +62,16 @@ const renderCard = (cardPlace, card) => {
 };
 
 const renderBoard = (boardComponent, cards) => {
+
+  if (cardCount.FILMS_CARDS_COUNT === 0) {
+    const extraFilms = boardComponent.getElement().querySelectorAll(`.films-list--extra`);
+    render(boardComponent.getElement(), new NoFilmsComponent().getElement(), renderPosition.AFTERBEGIN);
+    extraFilms.forEach((child) => {
+      boardComponent.getElement().removeChild(child);
+    });
+    return;
+  }
+
   const filmsMainContainerElem = boardComponent.getElement().querySelector(`.films-list__container`);
   const filmsExtraContainersElem = boardComponent.getElement().querySelectorAll(`.films-list--extra`);
 

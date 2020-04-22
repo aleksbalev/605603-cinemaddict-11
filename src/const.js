@@ -4,7 +4,7 @@ const renderPosition = {
 };
 
 const cardCount = {
-  FILMS_CARDS_COUNT: 15,
+  FILMS_CARDS_COUNT: 22,
   EXTRA_FILMS_COUNT: 2,
   SHOWING_CARDS_COUNT_ON_START: 5,
   SHOWING_CARDS_COUNT_BY_BUTTON: 5
