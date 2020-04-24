@@ -88,7 +88,7 @@ class PageController {
 
     let showingCardsCount = cardCount.SHOWING_CARDS_COUNT_ON_START;
 
-    renderCards(boardComponent, cards.slice(0, showingCardsCount));
+    renderCards(filmsMainContainerElem, cards.slice(0, showingCardsCount));
 
     let showingExtraCardsCount = cardCount.EXTRA_FILMS_COUNT;
     cards.slice(0, showingExtraCardsCount)
