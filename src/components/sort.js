@@ -1,6 +1,4 @@
-import {
-  createElement
-} from '../utils';
+import AbstractComponent from './abstract-component';
 
 const createSortingMarkup = (sort) => {
   const {
@@ -29,26 +27,15 @@ const createSortTemplate = (sortings) => {
   );
 };
 
-class Sort {
+class Sort extends AbstractComponent {
   constructor(sortings) {
+    super();
+
     this._sortings = sortings;
-    this._element = null;
   }
 
   getTemplate() {
     return createSortTemplate(this._sortings);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

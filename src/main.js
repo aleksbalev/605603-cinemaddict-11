@@ -17,13 +17,15 @@ import {
   generateCards
 } from './mock/card';
 import {
-  switchElem,
-  render
-} from './utils';
+  switchElem
+} from './utils/common';
 import {
   renderPosition,
   cardCount
-} from './const';
+} from './utils/const';
+import {
+  render
+} from './utils/render';
 
 const renderCard = (cardPlace, card) => {
   const onEscKeyDown = (evt) => {
