@@ -9,18 +9,24 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, place) => {
+const render = (container, сomponent, place) => {
   switch (place) {
     case renderPosition.AFTERBEGIN:
-      container.prepend(element);
+      container.prepend(сomponent.getElement());
       break;
     case renderPosition.BEFOREEND:
-      container.append(element);
+      container.append(сomponent.getElement());
       break;
   }
+};
+
+const remove = (componetn) => {
+  componetn.getElement().remove();
+  componetn.removeElement();
 };
 
 export {
   createElement,
   render,
+  remove
 };

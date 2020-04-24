@@ -171,6 +171,10 @@ class Detail extends AbstractComponent {
   getTemplate() {
     return createFilmsDetailTemplate(this._card);
   }
+
+  setClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
+  }
 }
 
 export default Detail;
