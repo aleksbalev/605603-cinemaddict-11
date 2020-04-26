@@ -1,6 +1,4 @@
-import {
-  createElement
-} from '../utils';
+import AbstractComponent from './abstract-component';
 
 const createCommentsMarkup = (comments) => {
   const commentsArr = [];
@@ -163,26 +161,19 @@ const createFilmsDetailTemplate = (card) => {
     </section>`;
 };
 
-class Detail {
+class Detail extends AbstractComponent {
   constructor(card) {
+    super();
+
     this._card = card;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmsDetailTemplate(this._card);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(cb) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, cb);
   }
 }
 
