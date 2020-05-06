@@ -97,9 +97,6 @@ class PageController {
     const containerExtra = container.querySelectorAll(`.films-list--extra`);
 
     const renderShowMoreButton = () => {
-      if (showingCardsCount >= cards.length) {
-        return;
-      }
 
       render(container.querySelector(`.films-list`), this._showMoreButtonComponent, renderPosition.BEFOREEND);
 
@@ -137,7 +134,6 @@ class PageController {
 
     const sortElements = [].slice.call(container.querySelectorAll(`.sort__button`));
     switchElem(sortElements, `sort__button`);
-
 
     let showingExtraCardsCount = cardCount.EXTRA_FILMS_COUNT;
     cards.slice(0, showingExtraCardsCount)

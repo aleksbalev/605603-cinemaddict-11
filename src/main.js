@@ -30,7 +30,6 @@ const filters = generateFilters();
 
 render(siteHeaderElem, new ProfileComponent(), renderPosition.BEFOREEND);
 render(siteMainElem, new NavigationComponent(filters), renderPosition.AFTERBEGIN);
-// render(siteMainElem, new SortComponent(), renderPosition.BEFOREEND);
 
 const filterElements = [].slice.call(siteMainElem.querySelectorAll(`.main-navigation__item`));
 switchElem(filterElements, `main-navigation__item`);
