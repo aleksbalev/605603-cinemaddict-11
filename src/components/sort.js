@@ -1,42 +1,60 @@
-import AbstractComponent from './abstract-component';
+import AbstractComponent from "./abstract-component";
 
-const createSortingMarkup = (sort) => {
-  const {
-    name
-  } = sort;
-
-  const classList = `sort__button ${name === `Sort by default` ? `sort__button--active` : ``}`;
-
-  return `
-  <li>
-    <a href="#" class="${classList}">
-      ${name}
-    </a>
-  </li>`;
+const SortType = {
+  DATE_DOWN: `date-down`,
+  RATE_DOWN: `rank-down`,
+  DEFAULT: `default`,
 };
 
-const createSortTemplate = (sortings) => {
-  const sortingMarkup = sortings
-    .map((item) => createSortingMarkup(item))
-    .join(`\n`);
-
-  return (
-    `<ul class="sort">
-      ${sortingMarkup}
-    </ul>`
-  );
+const createSortTemplate = () => {
+  return `<ul class="sort">
+      <li><a href="#" data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active">Sort by default</a></li>
+      <li><a href="#" data-sort-type="${SortType.DATE_DOWN}" class="sort__button">Sort by date</a></li>
+      <li><a href="#" data-sort-type="${SortType.RATE_DOWN}" class="sort__button">Sort by rating</a></li>
+    </ul>`;
 };
 
 class Sort extends AbstractComponent {
-  constructor(sortings) {
+  constructor() {
     super();
 
-    this._sortings = sortings;
+    this._currentSortType = SortType.DEFAULT;
   }
 
   getTemplate() {
-    return createSortTemplate(this._sortings);
+    return createSortTemplate();
+  }
+
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  setSortTypeChangeHandler(handler) {
+    const sortButtons = this.getElement().querySelectorAll(`.sort__button`);
+
+    sortButtons.forEach((elem) => {
+      elem.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        if (evt.target.tagName !== `A`) {
+          return;
+        }
+
+        const sortType = evt.target.dataset.sortType;
+
+        if (this._currentSortType === sortType) {
+          return;
+        }
+
+        this._currentSortType = sortType;
+
+        handler(this._currentSortType);
+      });
+    });
   }
 }
 
 export default Sort;
+export {
+  SortType
+};

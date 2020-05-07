@@ -1,15 +1,12 @@
 import BoardComponent from './components/board';
 import NavigationComponent from './components/navigation';
 import ProfileComponent from './components/profile';
-import SortComponent from './components/sort';
+// import SortComponent from './components/sort';
 import FilmsCountComponent from './components/footer-stats';
 import PageController from './controllers/page-controller';
 import {
   generateFilters
 } from './mock/navigation';
-import {
-  generateSorting
-} from './mock/sort';
 import {
   generateCards
 } from './mock/card';
@@ -30,14 +27,9 @@ const siteBodyElem = document.querySelector(`body`);
 
 const cards = generateCards(cardCount.FILMS_CARDS_COUNT);
 const filters = generateFilters();
-const sortings = generateSorting();
 
 render(siteHeaderElem, new ProfileComponent(), renderPosition.BEFOREEND);
 render(siteMainElem, new NavigationComponent(filters), renderPosition.AFTERBEGIN);
-render(siteMainElem, new SortComponent(sortings), renderPosition.BEFOREEND);
-
-const sortElements = [].slice.call(siteMainElem.querySelectorAll(`.sort__button`));
-switchElem(sortElements, `sort__button`);
 
 const filterElements = [].slice.call(siteMainElem.querySelectorAll(`.main-navigation__item`));
 switchElem(filterElements, `main-navigation__item`);

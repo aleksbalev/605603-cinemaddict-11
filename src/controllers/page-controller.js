@@ -2,6 +2,9 @@ import CardComponent from '../components/card';
 import DetailComponent from '../components/detail';
 import NoFilmsComponent from '../components/no-films';
 import ShowMoreButtonComponent from '../components/show-more-button';
+import SortComponent, {
+  SortType
+} from '../components/sort';
 import {
   render,
   remove
@@ -13,6 +16,9 @@ import {
 import {
   generateCards
 } from '../mock/card';
+import {
+  switchElem
+} from '../utils/common';
 
 const renderCard = (cardPlace, card) => {
   const siteBodyElem = document.querySelector(`body`);
@@ -57,38 +63,82 @@ const renderCards = (boardComponent, cards) => {
   });
 };
 
+const getSortedCards = (cards, sortType, from, to) => {
+  let sortedCards = [];
+  const showingCards = cards.slice();
+
+  switch (sortType) {
+    case SortType.DATE_DOWN:
+      sortedCards = showingCards.sort((a, b) => b.cardDate[0] - a.cardDate[0]);
+      break;
+    case SortType.RATE_DOWN:
+      sortedCards = showingCards.sort((a, b) => b.cardRating - a.cardRating);
+      break;
+    case SortType.DEFAULT:
+      sortedCards = showingCards;
+      break;
+  }
+
+  return sortedCards.slice(from, to);
+};
+
 class PageController {
   constructor(container) {
     this._container = container;
 
     this._noFilmsComponent = new NoFilmsComponent();
+    this._sortComponent = new SortComponent();
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
   }
 
-  render(boardComponent, cards) {
-    boardComponent = boardComponent.getElement();
+  render(container, cards) {
+    container = this._container.getElement();
+    const containerMain = container.querySelector(`.films-list__container`);
+    const containerExtra = container.querySelectorAll(`.films-list--extra`);
+
+    const renderShowMoreButton = () => {
+      if (showingCardsCount >= cards.length) {
+        return;
+      }
+
+      remove(this._showMoreButtonComponent);
+      render(container.querySelector(`.films-list`), this._showMoreButtonComponent, renderPosition.BEFOREEND);
+
+      this._showMoreButtonComponent.setClickHandler(() => {
+
+        const prevCardsCount = showingCardsCount;
+        showingCardsCount = showingCardsCount + cardCount.SHOWING_CARDS_COUNT_BY_BUTTON;
+
+        const sortedCards = getSortedCards(cards, this._sortComponent.getSortType(), prevCardsCount, showingCardsCount);
+
+        renderCards(containerMain, sortedCards);
+
+        if (showingCardsCount >= cards.length) {
+          remove(this._showMoreButtonComponent);
+        }
+      });
+    };
 
     if (cardCount.FILMS_CARDS_COUNT === 0) {
-      const extraFilms = boardComponent.querySelectorAll(`.films-list--extra`);
-      render(boardComponent, this._noFilmsComponent, renderPosition.AFTERBEGIN);
-      extraFilms.forEach((child) => {
-        boardComponent.removeChild(child);
+      render(container, this._noFilmsComponent, renderPosition.AFTERBEGIN);
+      containerExtra.forEach((child) => {
+        container.removeChild(child);
       });
       return;
     }
 
-    const filmsMainContainerElem = boardComponent.querySelector(`.films-list__container`);
-    const filmsExtraContainersElem = boardComponent.querySelectorAll(`.films-list--extra`);
-
-    const [topRated, mostCommented] = filmsExtraContainersElem;
+    const [topRated, mostCommented] = containerExtra;
     const topRatedContainer = topRated.querySelector(`.films-list__container`);
     const mostCommentedContainer = mostCommented.querySelector(`.films-list__container`);
 
-    const filmsListElem = boardComponent.querySelector(`.films-list`);
+    const filmsListElem = container.querySelector(`.films-list > .films-list__container`);
 
     let showingCardsCount = cardCount.SHOWING_CARDS_COUNT_ON_START;
 
-    renderCards(filmsMainContainerElem, cards.slice(0, showingCardsCount));
+    render(container, this._sortComponent, renderPosition.AFTERBEGIN);
+
+    const sortElements = [].slice.call(container.querySelectorAll(`.sort__button`));
+    switchElem(sortElements, `sort__button`);
 
     let showingExtraCardsCount = cardCount.EXTRA_FILMS_COUNT;
     cards.slice(0, showingExtraCardsCount)
@@ -97,17 +147,20 @@ class PageController {
         renderCard(mostCommentedContainer, card);
       });
 
-    render(filmsListElem, this._showMoreButtonComponent, renderPosition.BEFOREEND);
+    renderCards(filmsListElem, cards.slice(0, showingCardsCount));
 
-    this._showMoreButtonComponent.setClickHandler(() => {
-      const prevCardsCount = showingCardsCount;
-      showingCardsCount = showingCardsCount + cardCount.SHOWING_CARDS_COUNT_BY_BUTTON;
+    renderShowMoreButton();
 
-      renderCards(filmsMainContainerElem, cards.slice(prevCardsCount, showingCardsCount));
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      showingCardsCount = cardCount.SHOWING_CARDS_COUNT_BY_BUTTON;
 
-      if (showingCardsCount >= cards.length) {
-        remove(this._showMoreButtonComponent);
-      }
+      const sortedCards = getSortedCards(cards, sortType, 0, showingCardsCount);
+
+      filmsListElem.innerHTML = ``;
+
+      renderCards(filmsListElem, sortedCards);
+
+      renderShowMoreButton();
     });
   }
 }
