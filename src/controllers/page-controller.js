@@ -97,10 +97,15 @@ class PageController {
     const containerExtra = container.querySelectorAll(`.films-list--extra`);
 
     const renderShowMoreButton = () => {
+      if (showingCardsCount >= cards.length) {
+        return;
+      }
 
+      remove(this._showMoreButtonComponent);
       render(container.querySelector(`.films-list`), this._showMoreButtonComponent, renderPosition.BEFOREEND);
 
       this._showMoreButtonComponent.setClickHandler(() => {
+
         const prevCardsCount = showingCardsCount;
         showingCardsCount = showingCardsCount + cardCount.SHOWING_CARDS_COUNT_BY_BUTTON;
 
